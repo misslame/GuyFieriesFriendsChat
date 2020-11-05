@@ -4,6 +4,8 @@
 
 static struct mg_serve_http_opts http_connection;
 
+int Server(int entry_port);
+
 int main(void) {
 
 	int port_number;
