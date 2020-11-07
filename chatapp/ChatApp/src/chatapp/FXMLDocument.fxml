@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="pane" prefHeight="600.0" prefWidth="420.0" stylesheets="@../assets/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chatapp.FXMLDocumentController">
+    <children>
+        <Button fx:id="butter" layoutX="324.0" layoutY="547.0" onAction="#handleSendAction" prefHeight="45.0" prefWidth="83.0" text="Send" />
+      <TitledPane animated="false" collapsible="false" layoutX="14.0" layoutY="17.0" prefHeight="522.0" prefWidth="392.0" text="Guy Fieri's Friends">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" stylesheets="@../assets/main.css">
+               <children>
+                  <ScrollPane fx:id="container" layoutX="-1.0" layoutY="-3.0" prefHeight="501.0" prefWidth="392.0" styleClass="chatbox" stylesheets="@../assets/main.css" />
+               </children>
+            </AnchorPane>
+        </content>
+         <font>
+            <Font name="Comic Sans MS Bold" size="12.0" />
+         </font>
+      </TitledPane>
+      <TextField fx:id="textMsg" layoutX="14.0" layoutY="547.0" onKeyPressed="#onEnter" prefHeight="45.0" prefWidth="301.0" />
+    </children>
+</AnchorPane>

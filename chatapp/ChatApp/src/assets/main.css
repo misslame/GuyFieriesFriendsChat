@@ -1,0 +1,31 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 6, 2020, 3:31:53 PM
+    Author     : Bear
+*/
+
+#pane{
+    -fx-background-image: url("fire.jpg");
+    -fx-background-repeat: stretch;   
+}
+
+.chatbox{
+    -fx-background-color:#333333;
+    -fx-min-height:500px;
+    -fx-min-width:377px;
+}
+
+.chatpane{
+    -fx-background-color:#333333;
+}
+
+.label{
+    -fx-padding: 5px;
+    -fx-background-color: #C6712B;
+    -fx-background-radius: 5;
+    -fx-text-fill: white;
+}

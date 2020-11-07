@@ -1,6 +1,18 @@
 */a.out
 *.o
+**/server_info.txt
 
+**/build.xml
+**/manifest.mf
+**/nbproject/
+**/nbproject/private/
+**/nbproject/Makefile-*.mk
+**/nbproject/Package-*.bash
+build/
+*/nbbuild/
+*/dist/
+*/nbdist/
+*/.nb-gradle/
 
 # Prerequisites
 *.d
@@ -34,3 +46,6 @@
 *.exe
 *.out
 *.app
+/chatapp/ChatApp/nbproject/private/
+/chatapp/ChatApp/dist/
+/chatapp/ChatApp/build/
