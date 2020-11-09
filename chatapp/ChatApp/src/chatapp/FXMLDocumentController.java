@@ -103,6 +103,15 @@ public class FXMLDocumentController implements Initializable {
         Label l = new Label(response);
         l.setAlignment(Pos.CENTER_RIGHT);
         l.setFont(new Font("Comic Sans MS", 16));
+        
+     
+        //timestamp
+        String time = String.valueOf(new Date().getTime());
+        Label timestamp = new Label(time);
+        timestamp.setFont(new Font("Comic Sans MS", 8));
+        timestamp.setStyle("-fx-background-color:#333333");
+        align.getChildren().add(timestamp);
+
         align.getChildren().add(l);
         align.setAlignment(Pos.BASELINE_LEFT);
         
