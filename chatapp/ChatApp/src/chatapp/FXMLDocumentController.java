@@ -34,6 +34,7 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Date;
 
 
 public class FXMLDocumentController implements Initializable {
@@ -75,6 +76,15 @@ public class FXMLDocumentController implements Initializable {
             l.setFont(new Font("Comic Sans MS", 16));
             l.setWrapText(true);
             l.setMaxWidth(250);
+
+
+            //timestamp
+            String time = String.valueOf(new Date().getTime());
+            Label timestamp = new Label(time);
+            timestamp.setFont(new Font("Comic Sans MS", 8));
+            timestamp.setStyle("-fx-background-color:#333333");
+            align.getChildren().add(timestamp);
+
             align.getChildren().add(l);
             align.setAlignment(Pos.BASELINE_RIGHT);
 
