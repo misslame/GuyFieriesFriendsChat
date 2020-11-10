@@ -11,7 +11,6 @@ import javafx.application.Platform;
 
 class ReceiveMsg extends Thread {
     private BufferedReader reader;
-    private Socket socket;
 
     public ReceiveMsg(Socket socket) {
 
@@ -28,7 +27,8 @@ class ReceiveMsg extends Thread {
         while (true) {
             try {
                 String response = reader.readLine();
-                System.out.println(response);
+                //debug
+                System.out.println("test" + response);
                 Platform.runLater(new Runnable() {
                     @Override 
                     public void run() {

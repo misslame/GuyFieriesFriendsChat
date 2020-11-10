@@ -2,9 +2,6 @@
 package chatapp;
  
 // Client connection imports:
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -28,116 +25,72 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 // Other:
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Date;
+import javafx.scene.control.TitledPane;
 
 
 public class FXMLDocumentController implements Initializable {
-    
-    static private List<HBox> messages;
-    
+    private static String clientUsername;
+
     // Client Attributes
     private String ip;
     private int port;
     private Socket socket; 
     private OutputStream out;
-    private PrintWriter writer;
+    private static PrintWriter writer;
     
     // UI Attributes
     @FXML
     private ScrollPane container;
     @FXML
     private TextField textMsg;
+    @FXML
+    private TitledPane title;
     static private VBox chatBox = new VBox(5);
-    
-    @FXML
-    private void handleSendAction(ActionEvent event) {
-       sendMessage();
+   
+    public static void setUsername(String name){
+        clientUsername = name;
+    }
+   
+    public static void sendUserName(){
+        writer.print("nick" + clientUsername);
+        writer.flush();
     }
     
-    @FXML
-    private void onEnter(KeyEvent ke){
-        if(ke.getCode().equals(KeyCode.ENTER)){
-           sendMessage(); 
-        }
-    }
-    
-    private void sendMessage(){
-        if(textMsg.getText() != null && textMsg.getText().length() > 0){
-            HBox align = new HBox();
-            align.setPadding(new Insets(5,5,5,5));
-            Label l = new Label(textMsg.getText());
-            l.setAlignment(Pos.CENTER_RIGHT);
-            l.setFont(new Font("Comic Sans MS", 16));
-            l.setWrapText(true);
-            l.setMaxWidth(250);
-
-
-            //timestamp
-            String time = String.valueOf(new Date().getTime());
-            Label timestamp = new Label(time);
-            timestamp.setFont(new Font("Comic Sans MS", 8));
-            timestamp.setStyle("-fx-background-color:#333333");
-            align.getChildren().add(timestamp);
-
-            align.getChildren().add(l);
-            align.setAlignment(Pos.BASELINE_RIGHT);
-
-            messages.add(align);
-            chatBox.getChildren().add(messages.get(messages.size()-1));
-
-            writer.println(textMsg.getText());
-            textMsg.clear();
-        }
-    }
-    
-    
-    @FXML
-    static void recieveMessage(String response){
-        HBox align = new HBox();
-        Label l = new Label(response);
-        l.setAlignment(Pos.CENTER_RIGHT);
-        l.setFont(new Font("Comic Sans MS", 16));
-        
-     
-        //timestamp
-        String time = String.valueOf(new Date().getTime());
-        Label timestamp = new Label(time);
-        timestamp.setFont(new Font("Comic Sans MS", 8));
-        timestamp.setStyle("-fx-background-color:#333333");
-        align.getChildren().add(timestamp);
-
-        align.getChildren().add(l);
-        align.setAlignment(Pos.BASELINE_LEFT);
-        
-        messages.add(align);
-        chatBox.getChildren().add(messages.get(messages.size()-1));
-    }
-    
-    @Override
+    @Override // On start method.
     public void initialize(URL url, ResourceBundle rb) {
-        messages = new ArrayList<>();
         container.setPrefSize(392, 501);
         container.setHbarPolicy(ScrollBarPolicy.NEVER);
         container.setContent(chatBox);
         chatBox.getStyleClass().add("chatbox");
         
-        readServerInfo();
+        title.setText("Guy Fieri's Friends: " + clientUsername);
+        
+        readServerInfo(); // Reads the file for IP/Port to connect to.
+        // Initializes IP and Port Variables. 
         
         try{
            socket = new Socket(ip, port);
+           
+           // Where messages are sent. (send)
            out = socket.getOutputStream();
+           // Where messages are read from. (received)
            writer = new PrintWriter(out, true);
            
+           // If the above are successful (connected) let user know. 
            Label l = new Label("You have established a connection!");
            l.setStyle("-fx-background-color:#333333;");
            chatBox.getChildren().add(l);
-           
+           // Start thread for waiting for incoming messages/updates. 
            Thread r = new ReceiveMsg(socket);
            r.start();
            
@@ -148,12 +101,9 @@ public class FXMLDocumentController implements Initializable {
         }
     }   
     
-    
+    // Reads from an assets file the server information to connect to. 
     void readServerInfo(){
         try {
-            // Debug
-            System.out.println(System.getProperty("user.dir"));
-            
             File file = new File("src/assets/server_info.txt");
             Scanner in = new Scanner(file);
             
@@ -168,6 +118,88 @@ public class FXMLDocumentController implements Initializable {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+   
+    
+    /*************************************
+        UI: Action Methods
+    *************************************/
+    @FXML // When the send button is pressed.
+    private void handleSendAction(ActionEvent event) {
+       sendMessage();
+    }
+    
+    @FXML // When a user presses enter after typing a message. 
+    private void onEnter(KeyEvent ke){
+        if(ke.getCode().equals(KeyCode.ENTER)){
+           sendMessage(); 
+        }
+    }
+    
+    // Send message from current client. 
+    private void sendMessage(){
+        if(textMsg.getText() != null && textMsg.getText().length() > 0){
+            
+            // Initialize label with message in it. 
+            Label message = new Label(textMsg.getText());
+            message.setAlignment(Pos.CENTER_RIGHT);
+            message.setFont(new Font("Comic Sans MS", 16));
+            message.setWrapText(true);
+            message.setMaxWidth(235);
+
+
+            // Initialize label with timestamp.
+            ZonedDateTime time = ZonedDateTime.now();
+            DateTimeFormatter timeFormatted = DateTimeFormatter.ofPattern("hh:mm a");
+            
+            Label timestamp = new Label(time.format(timeFormatted));
+            timestamp.setFont(new Font("Comic Sans MS", 8));
+            timestamp.setStyle("-fx-background-color:#333333");
+            
+            // Add message and timestamp to UI. 
+            HBox align = new HBox();
+            align.setPadding(new Insets(5,5,5,5));
+            align.getChildren().add(timestamp); // Add timestamp
+            align.getChildren().add(message); // Add message. 
+            align.setAlignment(Pos.BASELINE_RIGHT); // Set right
+
+            chatBox.getChildren().add(align); // Adds to screen. 
+            
+            // Send to server. 
+            writer.print(textMsg.getText());
+            writer.flush();
+            textMsg.clear(); // clears text input box. 
+        }
+    }
+    
+    
+    @FXML // Statically called (RecieveMessageThread)
+    static void recieveMessage(String response){
+        
+        // Initialize label with message in it
+        Label message = new Label(response);
+        message.setAlignment(Pos.CENTER_LEFT);
+        message.setFont(new Font("Comic Sans MS", 16));
+        message.setWrapText(true);
+        message.setMaxWidth(235);
+        
+     
+        // Initialize label with timestamp.
+        ZonedDateTime time = ZonedDateTime.now();
+        DateTimeFormatter timeFormatted = DateTimeFormatter.ofPattern("hh:mm a");
+        
+        Label timestamp = new Label(time.format(timeFormatted));
+        timestamp.setFont(new Font("Comic Sans MS", 8));
+        timestamp.setStyle("-fx-background-color:#333333");
+        
+        // Add message and timestamp to UI
+        HBox align = new HBox();
+        align.setPadding(new Insets(5,5,5,5));
+         align.getChildren().add(message);
+        align.getChildren().add(timestamp);
+        align.setAlignment(Pos.BASELINE_LEFT);
+        
+        chatBox.getChildren().add(align);
     }
    
 }
