@@ -3,6 +3,12 @@
 #include <sstream>
 #include <map>
 
+// ***************************
+//	CHANGE PORT HERE
+// ***************************
+
+const std::string PORT = "12345"; 
+
 std::map<struct mg_connection *, std::string> connectedClients; 
 
 // Represents a torn apart HTTP Request that can be easily understood. 
@@ -121,7 +127,7 @@ int main(void) {
 	struct mg_mgr mgr; // Manager
 	mg_mgr_init(&mgr, NULL);  // Initialize event manager object
 
-	mg_bind(&mgr, "42069", ev_handler);  // port is 42069 (IP IS WHERE SERVER IS RUN)
+	mg_bind(&mgr, PORT.c_str(), ev_handler);  // port is 42069 (IP IS WHERE SERVER IS RUN)
 
 	// infinite event loop
 	while(true){  
