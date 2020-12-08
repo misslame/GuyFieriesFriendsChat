@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="pane" prefHeight="600.0" prefWidth="420.0" stylesheets="@../assets/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chatapp.FXMLDocumentController">
+<AnchorPane id="pane" prefHeight="600.0" prefWidth="420.0" stylesheets="@../assets/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chatapp.ClientController">
     <children>
         <Button fx:id="butter" layoutX="324.0" layoutY="547.0" onAction="#handleSendAction" prefHeight="45.0" prefWidth="83.0" text="Send">
          <font>

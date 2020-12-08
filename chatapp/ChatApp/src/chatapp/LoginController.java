@@ -18,31 +18,29 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 
 public class LoginController implements Initializable {
 
 
-    @FXML
-    private TextField nickname;
+    @FXML private TextField nickname;
     
-    @FXML
-    private PasswordField password;
+    @FXML private PasswordField password;
     
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-      
-    } 
+    @Override // NOTHING
+    public void initialize(URL url, ResourceBundle rb) { } 
     
     @FXML
     public void onSend(Event event){
         if(nickname.getText() != null && nickname.getText().length() > 0){
             if(password.getText().equals("flavortown")){
                 try {
-                    FXMLDocumentController.setUsername(nickname.getText());
+                    ClientController.setUsername(nickname.getText());
 
-                    Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("Client.fxml"));
 
                     Scene scene = new Scene(root);
 
@@ -51,7 +49,6 @@ public class LoginController implements Initializable {
                     window.setScene(scene);
                     window.setResizable(false);
                     window.show();
-                    FXMLDocumentController.sendUserName();
                 } catch (IOException ex) {
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -61,7 +58,6 @@ public class LoginController implements Initializable {
 
                 // show the dialog 
                 a.show(); 
-
             }
         }else{
             // ALERT EMPTY NICKNAME
@@ -71,7 +67,13 @@ public class LoginController implements Initializable {
             a.show();
         }
         
-        
+    }
+    
+    @FXML // When a user presses enter after typing nickname/password. 
+    private void onEnter(KeyEvent ke){
+        if(ke.getCode().equals(KeyCode.ENTER)){
+           onSend(ke); 
+        }
     }
     
 }

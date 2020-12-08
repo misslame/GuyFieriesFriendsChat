@@ -7,10 +7,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="392.0" prefWidth="694.0" styleClass="login" stylesheets="@../assets/main.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="chatapp.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="392.0" prefWidth="694.0" styleClass="login" stylesheets="@../assets/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chatapp.LoginController">
    <children>
-      <TextField fx:id="nickname" layoutX="29.0" layoutY="85.0" prefHeight="47.0" prefWidth="300.0" promptText="What do your palls call ya?">
+      <TextField fx:id="nickname" layoutX="29.0" layoutY="85.0" onKeyPressed="#onEnter" prefHeight="47.0" prefWidth="300.0" promptText="What do your palls call ya?">
          <font>
             <Font size="13.0" />
          </font>
@@ -20,7 +19,7 @@
             <Font name="Comic Sans MS Bold" size="20.0" />
          </font>
       </Label>
-      <PasswordField fx:id="password" layoutX="29.0" layoutY="212.0" prefHeight="47.0" prefWidth="300.0" promptText="Password">
+      <PasswordField fx:id="password" layoutX="29.0" layoutY="212.0" onKeyPressed="#onEnter" prefHeight="47.0" prefWidth="300.0" promptText="Password">
          <font>
             <Font size="13.0" />
          </font>
@@ -35,7 +34,7 @@
             <Font name="System Italic" size="12.0" />
          </font>
       </Label>
-      <Button layoutX="33.0" layoutY="273.0" mnemonicParsing="false" onAction="#onSend" prefHeight="66.0" prefWidth="239.0" text="Get Cookin!">
+      <Button layoutX="33.0" layoutY="273.0" mnemonicParsing="false" onAction="#onSend" onKeyPressed="#onEnter" prefHeight="66.0" prefWidth="239.0" text="Get Cookin!">
          <font>
             <Font name="Comic Sans MS Bold" size="24.0" />
          </font>
